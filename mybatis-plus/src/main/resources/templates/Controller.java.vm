@@ -1,0 +1,108 @@
+package ${package.Controller};
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import com.mybatisplus.common.utils.RespUtils;
+import ${package.Entity}.${entity};
+import ${cfg.parent}.service.I${entity}Service;
+import lombok.extern.slf4j.Slf4j;
+#if(${restControllerStyle})
+import org.springframework.web.bind.annotation.RestController;
+#else
+import org.springframework.stereotype.Controller;
+#end
+#if(${superControllerClassPackage})
+import ${superControllerClassPackage};
+#end
+
+import java.util.List;
+
+/**
+ * $!{table.comment} Controller
+ *
+ * @author $!{author}
+ * @since ${date}
+ * @describe $!{cfg.describe}
+ * @version $!{cfg.version}
+ */
+    #if(${restControllerStyle})
+@RestController
+    #else
+@Controller
+    #end
+@Slf4j
+@RequestMapping("#if(${cfg.requestMapping})${cfg.requestMapping}/#end${table.entityPath}")
+#if(${kotlin})
+class ${table.controllerName}#if(${superControllerClass}) : ${superControllerClass}()#end
+
+#else
+    #if(${superControllerClass})
+public class ${table.controllerName} extends ${superControllerClass} {
+    #else
+public class ${table.controllerName} {
+    #end
+
+    @Autowired
+    private I${entity}Service ${table.entityPath}Service;
+
+    /**
+     * 查询所有数据
+     *
+     * @return
+     **/
+    @RequestMapping("selAll")
+    public RespUtils selAll() {
+        List<${entity}> ${table.entityPath}List = ${table.entityPath}Service.list();
+        if (${table.entityPath}List == null) {
+            return RespUtils.ERROR("暂无数据");
+        }
+        return RespUtils.SUCCESS(${table.entityPath}List);
+    }
+##    定义主键类型 #set($idType='')和主键名称#set($idName='')
+    #foreach($field in ${table.fields})#if(${field.keyFlag}) #set($idType=${field.propertyType})#set($idName=${field.propertyName})#end#end
+
+    /**
+     * 根据主键查询
+     *
+     * @return
+     **/
+    @RequestMapping("selById")
+    public RespUtils selById($idType $idName) {
+        ${entity} ${table.entityPath} = ${table.entityPath}Service.getById($idName);
+        return RespUtils.SUCCESS(${table.entityPath});
+    }
+
+    /**
+     * 根据主键查询
+     *
+     * @return
+     **/
+    @RequestMapping("delById")
+    public RespUtils delById($idType $idName) {
+        boolean remove =  ${table.entityPath}Service.removeById($idName);
+        if (remove) {
+        return RespUtils.SUCCESS();
+        } else {
+        return RespUtils.ERROR();
+        }
+    }
+
+    /**
+     * 添加记录
+     *
+     * @return
+     **/
+    @RequestMapping("add")
+    public RespUtils add( ${entity} ${table.entityPath}) {
+        boolean save = ${table.entityPath}Service.save(${table.entityPath});
+        if (save) {
+        return RespUtils.SUCCESS();
+        } else {
+        return RespUtils.ERROR();
+        }
+    }
+
+
+
+}
+#end

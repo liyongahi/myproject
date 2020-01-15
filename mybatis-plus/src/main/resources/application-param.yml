@@ -1,0 +1,10 @@
+#代码生成器默认参数配置
+generator:
+  project-main-path: D:\JAVA\file\generatorFile
+  data-start-url: jdbc:mysql://
+  data-end-url: ?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Hongkong
+
+#不需要登录即可请求的路径
+interceptor:
+  exclude:
+    path: /t/**,/generator/**,/error/**

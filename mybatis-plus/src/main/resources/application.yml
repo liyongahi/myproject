@@ -1,0 +1,16 @@
+server:
+  port: 8080
+spring:
+  resources:
+    static-locations: file:D:/JAVA/file/generatorFile #多个，隔开   请求静态文件
+  profiles:
+    active: data,param,redis #启用的配置文件
+  http:
+    encoding:
+      charset: utf-8
+      force-response: true
+logging:
+  level:
+    com:
+      mybatisplus: debug
+  config: classpath:logback-spring.xml
