@@ -19,7 +19,7 @@
         <mybatis-plus-boot-starter.version>3.2.0</mybatis-plus-boot-starter.version>
         <mybatis-plus.version>3.2.0</mybatis-plus.version>
 
-        <fastjson.version>1.2.58</fastjson.version>
+        <fastjson.version>1.2.83</fastjson.version>
         <swagger2.version>2.9.2</swagger2.version>
         <swaggerui.version>2.9.2</swaggerui.version>
     </properties>
